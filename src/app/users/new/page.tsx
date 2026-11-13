@@ -1,3 +1,4 @@
+import React from 'react';
 'use client'
 
 import { useState } from 'react'
@@ -6,9 +7,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { ArrowLeft, User, Building, MapPin, Save } from "lucide-react"
+import { User, Building, MapPin, Save } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { BackButton } from '@/components/ui/back-button'
 
 interface UserFormData {
   name: string
@@ -75,12 +77,7 @@ export default function NewUserPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center gap-4 mb-8">
-        <Button variant="outline" size="sm" asChild>
-          <Link href="/">
-            <ArrowLeft className="w-4 h-4" />
-            Back to Users
-          </Link>
-        </Button>
+        <BackButton fallbackHref="/" label="Back to Users" />
         <div>
           <h1 className="text-2xl font-bold">Create New User</h1>
           <p className="text-muted-foreground">Add a new user to the system</p>
@@ -285,4 +282,4 @@ export default function NewUserPage() {
       </form>
     </div>
   )
-} 
+}
