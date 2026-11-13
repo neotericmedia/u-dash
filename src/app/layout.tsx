@@ -16,6 +16,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "u-dash - User Management Dashboard",
   description: "A simple and elegant user management dashboard built with Next.js",
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico' },
+    ],
+    apple: '/u-dash-logo.svg',
+  },
 };
 
 export default function RootLayout({

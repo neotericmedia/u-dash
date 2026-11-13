@@ -2,6 +2,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Users, Plus } from "lucide-react"
+import { Logo } from "@/components/logo"
 
 export function Navigation() {
   const pathname = usePathname()
@@ -24,12 +25,7 @@ export function Navigation() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-6">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
-                U
-              </div>
-              <span className="font-semibold text-lg">u-dash</span>
-            </Link>
+            <Logo />
             
             <div className="hidden md:flex items-center gap-1">
               {navItems.map((item) => {
