@@ -1,11 +1,11 @@
+import React from 'react';
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import { getUser } from '@/lib/api'
-import { Button } from "@/components/ui/button"
+import { BackButton } from "@/components/ui/back-button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ArrowLeft, Mail, Phone, Globe, Building, MapPin, User as UserIcon } from "lucide-react"
-import Link from "next/link"
+import { Mail, Phone, Globe, Building, MapPin, User as UserIcon } from "lucide-react"
 import { UserDetailSkeleton } from '@/components/ui/loading-skeleton'
 
 interface UserDetailPageProps {
@@ -88,10 +88,10 @@ async function UserDetail({ userId }: { userId: string }) {
                 <p className="text-sm text-muted-foreground">{user.company.name}</p>
               </div>
               
-                             <div>
-                 <p className="text-sm font-medium">Catchphrase</p>
-                 <p className="text-sm text-muted-foreground italic">&ldquo;{user.company.catchPhrase}&rdquo;</p>
-               </div>
+              <div>
+                <p className="text-sm font-medium">Catchphrase</p>
+                <p className="text-sm text-muted-foreground italic">&ldquo;{user.company.catchPhrase}&rdquo;</p>
+              </div>
               
               <div>
                 <p className="text-sm font-medium">Business</p>
@@ -112,9 +112,7 @@ async function UserDetail({ userId }: { userId: string }) {
                 <div className="space-y-2">
                   <p className="text-sm font-medium">Street Address</p>
                   <p className="text-sm text-muted-foreground">
-                    {user.address.street}, {user.address.suite}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
+                    {user.address.street}, {user.address.suite}<br />
                     {user.address.city}, {user.address.zipcode}
                   </p>
                 </div>
@@ -148,12 +146,7 @@ export default function UserDetailPage({ params }: UserDetailPageProps) {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center gap-4 mb-8">
-        <Button variant="outline" size="sm" asChild>
-          <Link href="/">
-            <ArrowLeft className="w-4 h-4" />
-            Back to Users
-          </Link>
-        </Button>
+        <BackButton fallbackHref="/" label="Back to Users" />
       </div>
 
       <Suspense fallback={<UserDetailSkeleton />}>
@@ -161,4 +154,4 @@ export default function UserDetailPage({ params }: UserDetailPageProps) {
       </Suspense>
     </div>
   )
-} 
+}
