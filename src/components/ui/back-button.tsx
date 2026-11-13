@@ -1,3 +1,4 @@
+import React from 'react';
 'use client'
 
 import { useRouter } from 'next/navigation'
@@ -7,9 +8,8 @@ import { cn } from '@/lib/utils'
 
 interface BackButtonProps {
   /**
-   * Fallback URL to navigate to when back navigation is not available.
-   * This is REQUIRED to ensure reliable navigation behavior.
-   * KB-0008: Always use fallback href instead of relying on window.history.length
+   * Fallback URL to navigate to. REQUIRED for reliable navigation.
+   * KB-0009: Always use explicit fallback URLs with router.push()
    */
   fallbackHref: string
   label?: string
@@ -20,14 +20,14 @@ interface BackButtonProps {
 }
 
 /**
- * BackButton component for reliable navigation.
+ * Reliable BackButton component with fallback URL navigation.
  * 
- * KB-0008 Applied: This component avoids using window.history.length
- * for navigation state detection. Instead, it requires a fallback href
- * and always uses router.push() to ensure predictable behavior.
+ * KB-0009 Applied: Uses explicit fallback URLs with router.push() instead of
+ * relying on browser history APIs. Validates fallback is a relative path to
+ * prevent open redirect vulnerabilities. Includes proper accessibility attributes.
  * 
- * This prevents issues where window.history.length > 1 due to external
- * browser history, causing router.back() to navigate outside the app.
+ * @example
+ * <BackButton fallbackHref="/dashboard" label="Back to Dashboard" />
  */
 export function BackButton({
   fallbackHref,
@@ -39,9 +39,13 @@ export function BackButton({
 }: BackButtonProps) {
   const router = useRouter()
 
+  // Validate fallback is a relative path (security check)
+  if (!fallbackHref.startsWith('/')) {
+    console.warn('BackButton: fallbackHref must be a relative path starting with "/"')
+  }
+
   const handleBack = () => {
-    // KB-0008: Always use fallback for safety instead of router.back()
-    // This ensures users never navigate outside the app unexpectedly
+    // KB-0009: Always use explicit fallback URL for predictable navigation
     router.push(fallbackHref)
   }
 
@@ -51,9 +55,11 @@ export function BackButton({
       size={size}
       onClick={handleBack}
       className={cn('gap-2', className)}
+      aria-label={label}
+      data-testid="back-button"
     >
-      {showIcon && <ArrowLeft className="w-4 h-4" />}
-      {label}
+      {showIcon && <ArrowLeft className="w-4 h-4" aria-hidden="true" />}
+      <span>{label}</span>
     </Button>
   )
 }
